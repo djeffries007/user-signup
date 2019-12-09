@@ -11,7 +11,7 @@ def is_invalid(inpt):
     return False
 
 def valid_email(inpt):
-    if '@' in inpt:
+    if '@' in inpt and "." in inpt:
         return True
     return False
 
@@ -19,10 +19,12 @@ def valid_email(inpt):
 @app.route('/login', methods=['POST', 'GET'])
 def login():
 
+    username = ''
     username_error = ''
     password_error = ''
     verify_error = ''
     email_error = ''
+    email = ''
 
     if request.method == 'POST':
         username = request.form['username']
@@ -49,7 +51,7 @@ def login():
 
         if not (username_error or password_error or verify_error or email_error):
             return redirect('/welcome?username={0}'.format(username))
-    return render_template('login.html', username_error=username_error, password_error=password_error, verify_error=verify_error, email_error=email_error)
+    return render_template('login.html', username_error=username_error, password_error=password_error, verify_error=verify_error, email_error=email_error, username=username, email=email)
 
 @app.route('/welcome', methods=['GET'])
 def welcome():
